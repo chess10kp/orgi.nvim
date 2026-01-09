@@ -1,0 +1,31 @@
+{
+  "name": "tree-sitter-org",
+  "version": "0.1.0",
+  "description": "Tree-sitter grammar for Org mode",
+  "main": "bindings/node",
+  "keywords": [
+    "parser",
+    "tree-sitter",
+    "org"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/orgi.nvim"
+  },
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "tree-sitter-cli": "^0.20.0"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.org",
+      "file-types": [
+        "org"
+      ],
+      "highlights": [
+        "queries/org/highlights.scm"
+      ]
+    }
+  ]
+}
