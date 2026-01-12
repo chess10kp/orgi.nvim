@@ -63,7 +63,6 @@ function M.add_issue(opts)
   local args = {"add"}
 
   if opts.title then
-    table.insert(args, "--title")
     table.insert(args, opts.title)
   end
 
