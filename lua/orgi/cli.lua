@@ -1,5 +1,6 @@
 local M = {}
 local plenary_job = require("plenary.job")
+local config = require("orgi.config")
 
 ---Execute orgi command and return stdout
 ---@param args table Command arguments
@@ -30,6 +31,10 @@ end
 ---@param opts? {all?: boolean, open?: boolean, file?: string}
 ---@return table[]
 function M.list_issues(opts)
+  if not M.is_initialized() then
+    return nil, "not_initialized"
+  end
+
   opts = opts or {}
   local args = {"list"}
 
@@ -258,6 +263,20 @@ function M._parse_pr_list(output)
   end
 
   return prs
+end
+
+---Initialize orgi
+---@return boolean success
+function M.init()
+  local _, code = M.run({"init"})
+  return code == 0
+end
+
+---Check if orgi has been initialized
+---@return boolean is_initialized
+function M.is_initialized()
+  local orgi_file = vim.fn.expand(config.options.orgi_file)
+  return vim.fn.filereadable(orgi_file) == 1
 end
 
 return M

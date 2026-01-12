@@ -88,8 +88,13 @@ end
 function M.show_issues_picker(opts)
   opts = opts or {}
 
-  local issues = cli.list_issues(opts)
-  if #issues == 0 then
+  local issues, err = cli.list_issues(opts)
+  if err == "not_initialized" then
+    vim.notify("orgi has not been initialized. Run :OrgiInit first.", vim.log.levels.ERROR)
+    return
+  end
+
+  if not issues or #issues == 0 then
     vim.notify("No issues found", vim.log.levels.WARN)
     return
   end

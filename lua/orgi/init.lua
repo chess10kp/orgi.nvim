@@ -88,6 +88,16 @@ function M._create_commands()
     desc = "Mark an orgi issue as done",
   })
 
+  vim.api.nvim_create_user_command("OrgiInit", function()
+    if cli.init() then
+      vim.notify("orgi initialized successfully", vim.log.levels.INFO)
+    else
+      vim.notify("Failed to initialize orgi", vim.log.levels.ERROR)
+    end
+  end, {
+    desc = "Initialize orgi in the current directory",
+  })
+
   vim.api.nvim_create_user_command("OrgiGather", function(opts)
     local dry_run = opts.fargs[1] == "--dry-run"
 
@@ -239,6 +249,7 @@ end
 function M._create_keybindings()
   local opts = {silent = true, noremap = true}
 
+  vim.keymap.set("n", "<leader>oi", "<cmd>OrgiInit<CR>", opts)
   vim.keymap.set("n", "<leader>ol", "<cmd>OrgiList<CR>", opts)
   vim.keymap.set("n", "<leader>oia", "<cmd>OrgiAdd<CR>", opts)
   vim.keymap.set("n", "<leader>od", "<cmd>OrgiDone<CR>", opts)
