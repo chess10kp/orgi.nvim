@@ -11,7 +11,6 @@ function M.setup(opts)
 
   M._create_commands()
   M._create_autocmds()
-  M._create_keybindings()
 
   vim.notify("orgi.nvim loaded successfully", vim.log.levels.INFO)
 end
