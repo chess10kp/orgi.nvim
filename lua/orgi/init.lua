@@ -23,7 +23,7 @@ function M._create_commands()
     local cmd_opts = {}
     if args[1] == "--all" then
       cmd_opts.all = true
-    elseif args[1] == "--open" then
+    else
       cmd_opts.open = true
     end
 
@@ -243,20 +243,6 @@ function M._create_autocmds()
       end
     end,
   })
-end
-
----Create default keybindings
-function M._create_keybindings()
-  local opts = {silent = true, noremap = true}
-
-  vim.keymap.set("n", "<leader>oi", "<cmd>OrgiInit<CR>", opts)
-  vim.keymap.set("n", "<leader>ol", "<cmd>OrgiList<CR>", opts)
-  vim.keymap.set("n", "<leader>oia", "<cmd>OrgiAdd<CR>", opts)
-  vim.keymap.set("n", "<leader>od", "<cmd>OrgiDone<CR>", opts)
-  vim.keymap.set("n", "<leader>og", "<cmd>OrgiGather<CR>", opts)
-  vim.keymap.set("n", "<leader>os", "<cmd>OrgiSync<CR>", opts)
-  vim.keymap.set("n", "<leader>opl", "<cmd>OrgiPrList<CR>", opts)
-  vim.keymap.set("n", "<leader>opc", "<cmd>OrgiPrCreate<CR>", opts)
 end
 
 return M

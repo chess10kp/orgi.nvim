@@ -40,8 +40,6 @@ function M.list_issues(opts)
 
   if opts.all then
     table.insert(args, "--all")
-  elseif opts.open then
-    table.insert(args, "--open")
   end
 
   if opts.file then

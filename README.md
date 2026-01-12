@@ -64,21 +64,6 @@ require('nvim-treesitter.configs').setup({
 | `:OrgiPrDeny <id>` | Deny a pull request |
 | `:OrgiPrMerge <id>` | Merge a pull request |
 
-### Keybindings
-
-Default keybindings (can be customized in your config):
-
-| Key | Command |
-|-----|---------|
-| `<leader>oi` | Initialize orgi |
-| `<leader>ol` | List issues |
-| `<leader>oia` | Add issue |
-| `<leader>od` | Mark issue done |
-| `<leader>og` | Gather TODOs |
-| `<leader>os` | Sync issues |
-| `<leader>opl` | List PRs |
-| `<leader>opc` | Create PR |
-
 ### Picker Actions
 
 In the issue picker:
