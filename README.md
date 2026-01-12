@@ -9,25 +9,8 @@ A Neovim plugin for interacting with [orgi](https://github.com/chess10kp/orgi)
 - [snacks.nvim](https://github.com/folke/snacks.nvim)
 - [nui.nvim](https://github.com/MunifTanjim/nui.nvim)
 - [plenary.nvim](https://github.com/nvim-lua/plenary.nvim)
-- [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
 
 ## Installation
-
-### Tree-sitter Setup
-
-The plugin includes a tree-sitter grammar for Org mode. To use it:
-
-```lua
-require('nvim-treesitter.configs').setup({
-  highlight = {
-    enable = true,
-    custom_captures = {
-      ["org"] = "org",
-    },
-  },
-  parser_install_dir = vim.fn.stdpath("data") .. "/site/pack/packer/start/orgi.nvim/parser",
-})
-```
 
 ## Configuration
 

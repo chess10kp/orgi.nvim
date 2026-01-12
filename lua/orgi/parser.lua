@@ -1,24 +1,6 @@
 local M = {}
 local config = require("orgi.config")
 
-local parser = nil
-
----Get or create tree-sitter parser for Org mode
----@return userdata|nil parser
-function M.get_parser()
-  if parser then
-    return parser
-  end
-
-  local ok, ts = pcall(require, "nvim-treesitter.parsers")
-  if not ok then
-    return nil
-  end
-
-  parser = ts.get_parser(0, "org")
-  return parser
-end
-
 ---Parse Org file content into structured issues
 ---@param filepath string Path to .orgi file
 ---@return table[] issues
@@ -27,89 +9,11 @@ function M.parse_issues(filepath)
     return {}
   end
 
-  local content = vim.fn.readfile(filepath)
-  local file_text = table.concat(content, "\n")
-  local parsed = M.get_parser()
-
-  if not parsed then
-    return M._parse_fallback(file_text)
-  end
-
-  local trees = parsed:parse()
-  if not trees or #trees == 0 then
-    return M._parse_fallback(file_text)
-  end
-
-  local tree = trees[1]
-  if not tree then
-    return {}
-  end
-
-  return M._extract_issues_from_tree(tree)
+  local content = table.concat(vim.fn.readfile(filepath), "\n")
+  return M._parse_fallback(content)
 end
 
----Extract issues from tree-sitter tree
----@param tree userdata Tree-sitter tree
----@return table[] issues
-function M._extract_issues_from_tree(tree)
-  local issues = {}
-  local root ---@type userdata
-
-  if tree.root then
-    root = tree:root()
-  elseif type(tree) == "table" then
-    root = tree[1]:root()
-  else
-    return {}
-  end
-
-  local query = vim.treesitter.query.parse("org", [[
-    (headline
-      (item
-        (paragraph
-          (item
-            (expr
-              (bullet
-                (expr
-                  (bullet
-                    (expr
-                      (bullet (expr (value) @state))
-                    )
-                  )
-                )
-              )
-            )
-          )
-        )
-        (item
-          (paragraph
-            (item (expr (expr (value) @priority)))
-          )
-        )
-        (item
-          (paragraph
-            (item (expr (expr (value (list) @title))))
-          )
-        )
-        (section
-          (item
-            (paragraph
-              (item (expr (keyword) @tag))
-            )
-          )
-        )
-      )
-    )
-  ]])
-
-  for id, node in query:iter_captures(root, 0, 0, -1) do
-    local capture_name = query.captures[id]
-  end
-
-  return issues
-end
-
----Fallback parser using regex (when tree-sitter not available)
+---Parse Org file content using regex patterns
 ---@param content string File content
 ---@return table[] issues
 function M._parse_fallback(content)

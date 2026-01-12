@@ -224,14 +224,16 @@ function M._parse_list_output(output)
   local lines = vim.split(output, "\n", {trimempty = true})
 
   for _, line in ipairs(lines) do
-    local id, state, priority, title, tags = line:match("%[(%d+)%]%s+(%w+)%s+%[#(%w)%]%s+(.+)%s*:(.+):")
-    if id and state and priority and title and tags then
+    local index, id, title, state_str, priority_str = line:match("%s*(%d+)%.%s+(task%-[0-9]+):%s+(.-)%s+%((%w+)%)%s+%[(%w+)%]")
+    if index and id and title then
+      local state = state_str:upper()
+      local priority = priority_str ~= "None" and priority_str:upper() or nil
       table.insert(issues, {
-        id = tonumber(id),
+        id = id,
         state = state,
         priority = priority,
         title = title,
-        tags = vim.split(tags, ":"),
+        tags = {},
       })
     end
   end
